@@ -1,14 +1,9 @@
 package com.company;
-
-
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Main {
     public static void main(String[] args) {
-//        char a = 4 + '0';
-
-//        System.out.println(a);
         Scanner scanner = new Scanner(System.in);
         Bank bank = new Bank();
         while (true) {
@@ -20,7 +15,7 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("Enter your card number :");
-                    long cardNumber = scanner.nextLong();
+                    String cardNumber = scanner.next();
                     System.out.println("Enter your PIN :");
                     int pin = scanner.nextInt();
                     if (! bank.loggingIn(cardNumber, pin)) {

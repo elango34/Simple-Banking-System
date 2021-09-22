@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class LogIn {
 
-    private long cardNumber;
+    private String cardNumber;
     private int password;
 
-    public LogIn(long cardNumber, int password) {
+    public LogIn(String cardNumber, int password) {
         this.cardNumber = cardNumber;
         this.password = password;
     }
@@ -17,7 +17,7 @@ public class LogIn {
         if (this == o) return true;
         if (!(o instanceof LogIn)) return false;
         LogIn logIn = (LogIn) o;
-        return cardNumber == logIn.cardNumber &&
+        return cardNumber.equals(logIn.cardNumber) &&
                 password == logIn.password;
     }
 

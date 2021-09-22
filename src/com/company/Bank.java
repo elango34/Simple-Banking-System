@@ -10,31 +10,22 @@ public class Bank {
 
 
     public void createAccount() {
-
-        long lower = 1000000000L;
-        long upper = 9999999999L;
-        long temp = 4000000000000000L;
-        long accountNumber;
-        long cardNumber;
         int pin;
         AccountInfo accountInfo;
         LogIn logIn;
+        String cardNumber = generateCardByLuhn();
 
-
-            accountNumber = (long) (Math.random() * (upper - lower + 1) + lower);
-
-            cardNumber = temp + accountNumber;
-            pin = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
-            accountInfo = new AccountInfo(0);
-            logIn = new LogIn(cardNumber, pin);
-            map.putIfAbsent(logIn, accountInfo);
+        pin = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
+        accountInfo = new AccountInfo(0);
+        logIn = new LogIn(cardNumber, pin);
+        map.putIfAbsent(logIn, accountInfo);
 
         System.out.println("Your card has been created");
         System.out.println("Your card number :" +"\n" + cardNumber);
         System.out.println("Your card PIN:" + "\n" + pin);
     }
 
-    public boolean loggingIn(long cardNumber, int pin) {
+    public boolean loggingIn(String cardNumber, int pin) {
         LogIn logIn = new LogIn(cardNumber, pin);
         Scanner scanner = new Scanner(System.in);
 
@@ -59,6 +50,43 @@ public class Bank {
                     return true;
             }
         }
+    }
+
+
+    public String generateCardByLuhn() {
+        long lower = 100000000L;
+        long upper = 999999999L;
+        String bin = "400000";
+        long accountNumber;
+        String cardNumberWithoutCheckSum;
+        //range
+        accountNumber = (long) (Math.random() * (upper - lower + 1) + lower);
+        cardNumberWithoutCheckSum = bin + accountNumber;
+
+
+        int c;
+        int sum = 0;
+
+        for (int i = 0; i < cardNumberWithoutCheckSum.length(); i++) {
+            c =  cardNumberWithoutCheckSum.charAt(i) - '0';
+            if (i % 2 == 0) {
+                c = c * 2;
+                if (c > 9) {
+                    c = c - 9;
+                }
+            }
+            sum = sum + c;
+        }
+        String cardNumberWithCheckSum;
+        if (sum % 10 == 0) {
+            cardNumberWithCheckSum = cardNumberWithoutCheckSum + "0";
+        } else {
+            int a = 10 - (sum % 10);
+            cardNumberWithCheckSum = cardNumberWithoutCheckSum + a;
+        }
+
+        return cardNumberWithCheckSum;
+
     }
 
 
