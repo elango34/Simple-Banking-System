@@ -4,6 +4,7 @@ public class AccountInfo {
 
     private long balance;
 
+
     public AccountInfo(long balance) {
         this.balance = balance;
     }
@@ -19,13 +20,8 @@ public class AccountInfo {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AccountInfo)) return false;
-        AccountInfo that = (AccountInfo) o;
+        if (!(o instanceof AccountInfo that)) return false;
         return getBalance() == that.getBalance();
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(getBalance());
-//    }
 }

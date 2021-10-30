@@ -1,21 +1,28 @@
 package com.company;
 
+import org.sqlite.SQLiteDataSource;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Bank {
 
-    private Map<LogIn, AccountInfo> map = new HashMap<>();
+    private final Map<LogIn, AccountInfo> map = new HashMap<>();
+    String pin;
+    AccountInfo accountInfo;
+    LogIn logIn;
+    String cardNumber;
+
 
 
     public void createAccount() {
-        int pin;
-        AccountInfo accountInfo;
-        LogIn logIn;
-        String cardNumber = generateCardByLuhn();
 
-        pin = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
+        cardNumber = generateCardByLuhn();
+        pin = (int) (Math.random() * (9999 - 1000 + 1) + 1000) +"";
         accountInfo = new AccountInfo(0);
         logIn = new LogIn(cardNumber, pin);
         map.putIfAbsent(logIn, accountInfo);
@@ -25,7 +32,24 @@ public class Bank {
         System.out.println("Your card PIN:" + "\n" + pin);
     }
 
-    public boolean loggingIn(String cardNumber, int pin) {
+    public void insertAccount(String table_name, String url) {
+        SQLiteDataSource dataSource = new SQLiteDataSource();
+
+        dataSource.setUrl(url);
+        try(Connection conn = dataSource.getConnection()) {
+            try (Statement statement = conn.createStatement()) {
+                statement.executeUpdate("INSERT INTO '" + table_name + "' VALUES (NULL, '" +
+                        cardNumber + "', " + pin + ", " + accountInfo.getBalance()+ ")");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public boolean loggingIn(String cardNumber, String pin) {
         LogIn logIn = new LogIn(cardNumber, pin);
         Scanner scanner = new Scanner(System.in);
 

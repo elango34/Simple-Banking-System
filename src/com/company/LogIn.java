@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class LogIn {
 
-    private String cardNumber;
-    private int password;
+    private final String cardNumber;
+    private final String password;
 
-    public LogIn(String cardNumber, int password) {
+    public LogIn(String cardNumber, String password) {
         this.cardNumber = cardNumber;
         this.password = password;
     }
@@ -15,10 +15,9 @@ public class LogIn {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof LogIn)) return false;
-        LogIn logIn = (LogIn) o;
+        if (!(o instanceof LogIn logIn)) return false;
         return cardNumber.equals(logIn.cardNumber) &&
-                password == logIn.password;
+                password.equals(logIn.password);
     }
 
     @Override
