@@ -37,7 +37,7 @@ is generated randomly. You can create as many account you want, and it is stored
 
 <p>The database file name should be passed to the program using <code class="java">-fileName</code> command line argument, for example, <code class="java">-fileName db.s3db</code>.</p>
 
-<p>Pay attention: your database file should be created when the program starts, if the database already exists it didn't create new one.</p>
+<p><STRONG>Pay attention</STRONG>: your database file should be created when the program starts, if the database already exists it didn't create new one.</p>
 
 All data is stored in sqlite database.
 
