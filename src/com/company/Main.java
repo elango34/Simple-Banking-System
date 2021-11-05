@@ -1,39 +1,19 @@
 package com.company;
-import org.sqlite.SQLiteDataSource;
-
-import java.sql.*;
 import java.util.*;
 
 
 public class Main {
     public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
         Bank bank = new Bank();
 
         String DBName = args[1];
-        String table_name = "card";
+        bank.DB_NAME = DBName;
+        String Url = "jdbc:sqlite:" + DBName;
+        bank.setURL(Url);
 
-        SQLiteDataSource dataSource = new SQLiteDataSource();
-        String url = "jdbc:sqlite:"+ DBName;
-
-        dataSource.setUrl(url);
-        try {
-            Connection conn = dataSource.getConnection();
-            Statement statement = conn.createStatement();
-            statement.executeUpdate("DROP TABLE IF EXISTS " + table_name);
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + table_name
-                    +"('id' INTEGER PRIMARY KEY, 'number' TEXT UNIQUE, 'pin' TEXT, 'balance' INTEGER DEFAULT 0)");
-
-            statement.close();
-            conn.close();
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-
-        Scanner scanner = new Scanner(System.in);
+        bank.open();
 
         while (true) {
             System.out.println("1. Create an account" + "\n" + "2. Log into account" + "\n" + "0. Exit");
@@ -41,7 +21,6 @@ public class Main {
             switch (a) {
                 case 1:
                     bank.createAccount();
-                    bank.insertAccount(table_name, url);
                     break;
                 case 2:
                     System.out.println("Enter your card number :");
@@ -51,11 +30,13 @@ public class Main {
                     if (! bank.loggingIn(cardNumber, pin)) {
                         continue;
                     } else {
+                        bank.close();
                         return;
                     }
                 case 0:
+                    bank.close();
+                    System.out.println("\nBye!");
                     return;
-
 
             }
         }
